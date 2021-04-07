@@ -1,0 +1,67 @@
+.pagination-sm .page-item a {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.input-group-addon {
+    border: 1px solid #ccc;
+    padding: 4px 12px;
+    font-weight: 400;
+    border-right: 0;
+    background-color: #fff;
+}
+
+.nav .nav-treeview {
+    padding-left: 5px;
+}
+
+/* .table-hover {
+    margin-top: -21px;
+} */
+
+.hed {
+    background-color: #f4f4f4;
+}
+
+.phantrang {
+    float: right;
+}
+
+.cus_view_flast {
+    font-size: 11px;
+    color: #000000;
+    background: #1e7e34;
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+.cus_view_flast:hover, .cus_view_flast:focus {
+    color: #fff;
+}
+
+.cus_image_list img {
+    margin-bottom: 2px;
+    background: #95e67b;
+    cursor: pointer;
+}
+
+.cus_help {
+    display: block;
+    color: #00a65a;
+    font-size: 12px;
+    padding-left: 1px;
+    margin-top: 5px;
+}
+
+.form-control {
+    border-radius: 0;
+}
