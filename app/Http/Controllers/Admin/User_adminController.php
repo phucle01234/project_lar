@@ -38,6 +38,7 @@ class User_adminController extends Controller
 
         return view('admin.user.add', compact('role', 'cv'));
     }
+
     public function postAdd(AddUserRequest $request)
     {
         $user = new User();
@@ -74,7 +75,6 @@ class User_adminController extends Controller
 
     public function postEdit(EditUserRequest $request)
     {
-
         $user = User::find($request->id);
         $user->email       = $request->email;
         $user->fullname    = $request->fullname;
@@ -102,7 +102,7 @@ class User_adminController extends Controller
             ->first();
         if (empty($infoTask)) {
             $taskUser = new TaskUser();
-            $taskUser->task_id       = $request->task_id;
+            $taskUser->task_id    = $request->task_id;
             $taskUser->user_id    = $request->id;
             $taskUser->save();
         }

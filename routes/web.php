@@ -39,10 +39,16 @@ Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
     //delete
     Route::get('user/delete/{id}', [User_adminController::class, 'delete'])->name('delete')->where('id', '[0-9]+');
 
-    //chuc_vu
+    //***chuc_vu
     Route::get('chuc-vu', [Regency_adminController::class, 'get_regency'])->name('chuc-vu');
+    //add
+    Route::get('chuc-vu/add', [Regency_adminController::class, 'add'])->name('addChucvu');
+    Route::post('chuc-vu/postAdd', [Regency_adminController::class, 'postAdd'])->name('postAddChucvu');
+
+
     //phong_ban
     Route::get('phong-ban', [Department_adminController::class, 'get_department'])->name('phong-ban');
     //cong_viec
     Route::get('cong-viec', [Task_adminController::class, 'get_task'])->name('cong-viec');
 });
+

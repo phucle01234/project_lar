@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Chức vụ <a href="{{ route('add') }}" class="btn btn-primary btn-sm">
+                <h1>Chức vụ <a href="{{ route('addChucvu') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Thêm mới
                     </a>
                 </h1>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.card-header -->
+                     {{--  /.card-header   --}}
                     <div class="card-body table-responsive p-0">
                         <table class="table table-hover text-nowrap">
                             <thead>
@@ -48,7 +48,7 @@
                                     <th style="width: 120px;">Hành động </th>
                                 </tr>
                             </thead>
-                            {{-- {{ dd($regency) }} --}}
+                            {{--  {{ dd($regency) }}  --}}
                             <tbody>
                             @foreach ($regency as $row )
                                 <tr class="row_">
@@ -61,7 +61,7 @@
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
-                                        <a href="{{ route('edit') }}" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
                                         <a href="" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
@@ -86,4 +86,4 @@
         </div>
     </div>
 </section>
-@endsection
+@endsection()
