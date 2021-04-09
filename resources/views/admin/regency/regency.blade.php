@@ -42,7 +42,7 @@
                                     <th>Tên chức vụ</th>
                                     <th>Phòng ban</th>
                                     <th>status</th>
-                                    <th>Full name</th>            
+                                    {{--  <th>Full name</th>              --}}
                                     <th>Tạo lúc</th>
                                     <th>Ngày cập nhật</th>
                                     <th style="width: 120px;">Hành động </th>
@@ -57,12 +57,12 @@
                                     <td>{{ $row->name_cv }}</td>                                  
                                     <td>{{ $row->name_pb }}</td>                  
                                     <td>{{ $row->status }}</td>
-                                    <td><samp style="color:red">{{ $row->fullname }}</samp></td>
+                                    {{--  <td><samp style="color:red">{{ $row->fullname }}</samp></td>  --}}
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
-                                        <a href="" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
-                                        <a href="" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ route('editChucvu', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('deleteChucvu', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Regency\AddRegencyRequest;
+use App\Http\Requests\Regency\EditRegencyRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -14,9 +15,9 @@ class Regency_adminController extends Controller
     public function get_regency(Request $request)
     {
         $regency = DB::table('regency')
-            ->join('department', 'department.regency_id', '=', 'regency.id')
-            ->join('user', 'user.regency_id', '=', 'regency.id')
-            ->select('regency.*', 'department.name_pb', 'user.fullname' )
+            ->join('department', 'department.id', '=', 'regency.department_id')
+            // ->join('user', 'user.regency_id', '=', 'regency.id')
+            ->select('regency.*', 'department.name_pb', )
             ->get()->toArray();
         return view('admin.regency.regency', ['regency' => $regency]);
     }
@@ -30,20 +31,41 @@ class Regency_adminController extends Controller
     public function postAdd(AddRegencyRequest $request)
     {
         $regency = new Regency();
-        $regency->name_cv     = $request->name_cv;
-        $regency->department_id      = $request->pb;
-        $regency->status      = $request->status;
+        $regency->name_cv          = $request->name_cv;
+        $regency->department_id    = $request->pb;
+        $regency->status           = $request->status;
         $regency->save();
+        return redirect()->route('chuc-vu');
+    }
 
-        $pb = DB::table('department')
-        ->where('regency_id', '=', $request->name_cv)
-        ->first();
-        if (empty($pb)) {
-            $pbRegency = new Department();
-            $pbRegency->regency_id = $request->regency_id;
-            $pbRegency->name_pb = $request->pb;
-            $pbRegency->save();
-        }
+    public function edit(Request $request, $id)
+    {
+        $pb = department::all()->where('status', 'active');
+        // dd($pb);
+        $info = DB::table('regency')
+            ->where('id', '=', $id)
+            ->first();
+        return view('admin.regency.edit', compact('pb','info'));
+    }
+
+    public function postEdit(EditRegencyRequest $request,$id)
+    {
+        // $regency = Regency::find($request->id);
+        $regency = Regency::find($id);
+        $regency->name_cv= $request->name_cv;
+        $regency->department_id= $request->pb;
+        $regency->status= $request->status;
+        $regency->save();
+        return redirect()->route('chuc-vu');
+    }
+
+    public function delete($id)
+    {
+        // User::find($id)->delete();
+        $data = Regency::find($id);
+        $stt = 'delete';
+        $data->status = $stt;
+        $data->save();
         return redirect()->route('chuc-vu');
     }
 }

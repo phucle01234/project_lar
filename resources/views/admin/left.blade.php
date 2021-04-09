@@ -50,7 +50,7 @@
                 
                 <li class="nav-item">
                     <a href="{{ route('phong-ban') }}" class="nav-link">
-                        <i class="fas fa-bookmark"></i>
+                        <i class="fas fa-person-booth"></i>
                         <p>Phòng ban</p>
                     </a>
                 </li>

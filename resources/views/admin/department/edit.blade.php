@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Chức vụ <a href="{{ route('add') }}" class="btn btn-primary btn-sm">
+                <h1>Phòng ban <a href="{{ route('addPhongban') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Thêm mới
                     </a>
                 </h1>
@@ -13,8 +13,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}">Bản điều khiển</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('chuc-vu') }}">Chức vụ</a></li>
-                    <li class="breadcrumb-item active">Thêm</li>
+                    <li class="breadcrumb-item"><a href="{{ route('phong-ban') }}">Phòng ban</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
             </div>
         </div>
@@ -30,7 +30,7 @@
             </ul>
         </div>
     @endif
-    <form enctype="multipart/form-data" method="post" action="{{ route('postAddChucvu') }}" id="form" class="form">
+    <form enctype="multipart/form-data" method="post" action="" id="form" class="form">
         @csrf
         <div class="container-fluid">
             <div class="row">
@@ -42,8 +42,8 @@
                         {{--  <!-- /.card-header -->  --}}
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="auto_convert_name">Tên chức vụ<span class="text-red">(* Bắt buộc) </span></label>
-                                <input type="text" name="name_cv" value="{{ old('name_cv') }}" class="form-control">
+                                <label for="auto_convert_name">Nhập tên phòng<span class="text-red">(* Bắt buộc) </span></label>
+                                <input type="text" name="name_pb" value="{{ $info->name_pb }}" class="form-control">
                                 <span class="cus_help">Nhập tên. Tốt nhất là 60 ký tự</span>
                             </div>
                         </div>
@@ -56,24 +56,15 @@
                         </div>
                         <div class="card-body ">
                             <div class="form-group">
-								<label>Thuộc phòng ban</label>
-								<select class="form-control" name="pb">
-                                    @foreach ($pb as $row )
-                                    <option value="{{ $row->id }}" {{ old('role') == $row->id?'selected':'' }}>{{ $row->name_pb }}</option>
-                                    @endforeach
-								</select>
-							</div>
-
-                            <div class="form-group">
 								<label>Status</label>
 								<select class="form-control" name="status">
-									<option value="active" {{ old('status') == 'active'?'selected':'' }}>active</option>
-									<option value="unactive" {{ old('status') == 'unactive'?'selected':'' }}>unactive</option>
-                                    <option value="deleted" {{ old('status') == 'delete'?'selected':'' }}>delete</option>
+                                    <option value="active" {{ $info->status == 'active'?'selected':'' }}>active</option>
+									<option value="unactive" {{ $info->status == 'unactive'?'selected':'' }}>unactive</option>
+                                    <option value="delete" {{ $info->status == 'delete'?'selected':'' }}>delete</option>
 								</select>
 							</div>
                             <div class="timeline-footer">
-                                <button type="submit" class="btn btn-danger">Thêm mới</button>
+                                <button type="submit" class="btn btn-danger">Cập nhật</button>
                             </div>
                         </div>
                     </div>

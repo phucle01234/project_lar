@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Chức vụ <a href="{{ route('add') }}" class="btn btn-primary btn-sm">
+                <h1>Công việc <a href="{{ route('addTask') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Thêm mới
                     </a>
                 </h1>
@@ -52,13 +52,13 @@
                                 <tr class="row_">
                                     <td><input type="checkbox" name="id[]" value=""></td>
                                     <td>{{ $row->id }}</td>
-                                    <td>{{ $row->name }}</td>                                               
+                                    <td>{{ $row->name_da }}</td>                                               
                                     <td>{{ $row->fullname }}</td>
                                     <td>{{ $row->status }}</td>
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
-                                        <a href="{{ route('edit') }}" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
                                         <a href="" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>

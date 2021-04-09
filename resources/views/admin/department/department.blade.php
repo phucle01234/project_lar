@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Phòng ban <a href="{{ route('add') }}" class="btn btn-primary btn-sm">
+                <h1>Phòng ban <a href="{{ route('addPhongban') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Thêm mới
                     </a>
                 </h1>
@@ -56,8 +56,8 @@
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
-                                        <a href="" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
-                                        <a href="" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ route('editPhongban', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('deletePhongban', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

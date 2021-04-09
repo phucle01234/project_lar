@@ -122,7 +122,7 @@
 								<select class="form-control" name="status">
 									<option value="active" {{ $info->status == 'active'?'selected':'' }}>active</option>
 									<option value="unactive" {{ $info->status == 'unactive'?'selected':'' }}>unactive</option>
-                                    <option value="deleted" {{ $info->status == 'deleted'?'selected':'' }}>deleted</option>
+                                    <option value="delete" {{ $info->status == 'delete'?'selecte':'' }}>deleted</option>
 								</select>
 							</div>
                             <div class="timeline-footer">

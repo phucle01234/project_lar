@@ -112,7 +112,7 @@
 								<select class="form-control" name="status">
 									<option value="active" {{ old('status') == 'active'?'selected':'' }}>active</option>
 									<option value="unactive" {{ old('status') == 'unactive'?'selected':'' }}>unactive</option>
-                                    <option value="deleted" {{ old('status') == 'deleted'?'selected':'' }}>deleted</option>
+                                    <option value="deleted" {{ old('status') == 'delete'?'selected':'' }}>delete</option>
 								</select>
 							</div>
                             <div class="timeline-footer">

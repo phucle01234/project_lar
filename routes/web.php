@@ -44,11 +44,30 @@ Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
     //add
     Route::get('chuc-vu/add', [Regency_adminController::class, 'add'])->name('addChucvu');
     Route::post('chuc-vu/postAdd', [Regency_adminController::class, 'postAdd'])->name('postAddChucvu');
+    //edit
+    Route::get('chuc-vu/edit/{id}', [Regency_adminController::class, 'edit'])->name('editChucvu')->where('id', '[0-9]+');
+    Route::post('chuc-vu/edit/{id}', [Regency_adminController::class, 'postEdit']);
+    // Route::post('chuc-vu/postEdit', [Regency_adminController::class, 'postEdit'])->name('postEditChucvu');
+    //delete
+    Route::get('chuc-vu/delete/{id}', [Regency_adminController::class, 'delete'])->name('deleteChucvu')->where('id', '[0-9]+');
 
-
-    //phong_ban
+    //***phong_ban
     Route::get('phong-ban', [Department_adminController::class, 'get_department'])->name('phong-ban');
+    //add
+    Route::get('phong-ban/add', [Department_adminController::class, 'add'])->name('addPhongban');
+    Route::post('phong-ban/postAdd', [Department_adminController::class, 'postAdd'])->name('postAddPhongban');
+    //edit
+    Route::get('phong-ban/edit/{id}', [Department_adminController::class, 'edit'])->name('editPhongban')->where('id', '[0-9]+');
+    Route::post('phong-ban/edit/{id}', [Department_adminController::class, 'postEdit']);
+    //delete
+    Route::get('phong-ban/delete/{id}', [Department_adminController::class, 'delete'])->name('deletePhongban')->where('id', '[0-9]+');
+
     //cong_viec
     Route::get('cong-viec', [Task_adminController::class, 'get_task'])->name('cong-viec');
+    //add
+    Route::get('cong-viec/add', [Task_adminController::class, 'add'])->name('addTask');
+    Route::post('cong-viec/postAdd', [Task_adminController::class, 'postAdd'])->name('postAddTask');
+    ///////////////////////////////////
 });
+
 
