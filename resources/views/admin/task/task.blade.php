@@ -58,8 +58,8 @@
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
-                                        <a href="" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
-                                        <a href="" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
+                                        <a href="{{ route('editTack', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-warning" title="Chỉnh sửa"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('deleteTask', ['id'=>$row->id]) }}" class="btn btn-sm btn-social-icon btn-danger btn_del_one" title="Xóa"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

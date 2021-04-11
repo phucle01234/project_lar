@@ -41,7 +41,6 @@ class Regency_adminController extends Controller
     public function edit(Request $request, $id)
     {
         $pb = department::all()->where('status', 'active');
-        // dd($pb);
         $info = DB::table('regency')
             ->where('id', '=', $id)
             ->first();
@@ -61,7 +60,6 @@ class Regency_adminController extends Controller
 
     public function delete($id)
     {
-        // User::find($id)->delete();
         $data = Regency::find($id);
         $stt = 'delete';
         $data->status = $stt;

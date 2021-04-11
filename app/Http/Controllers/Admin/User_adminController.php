@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AddUserRequest;
-use App\Http\Requests\EditUserRequest;
+use App\Http\Requests\User\AddUserRequest;
+use App\Http\Requests\User\EditUserRequest;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\Regency;
@@ -13,7 +13,6 @@ use App\Models\TaskUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class User_adminController extends Controller
 {
@@ -24,7 +23,7 @@ class User_adminController extends Controller
             ->join('roles', 'roles.id', '=', 'user.role_id')
             ->join('regency', 'regency.id', '=', 'user.regency_id')
             ->select('user.*', 'roles.name', 'regency.name_cv')
-            ->get();
+            ->get()->toArray();
         //lấy ds các user
         //* cách 1 $user = DB::select('select * from user');
         //$user = User::get();
@@ -61,7 +60,6 @@ class User_adminController extends Controller
         return redirect()->route('user');
     }
 
-
     public function edit(Request $request, $id)
     {
         $role = Role::all()->where('status', 'active');
@@ -70,7 +68,7 @@ class User_adminController extends Controller
         $info = DB::table('user')
             ->where('id', '=', $id)
             ->first();
-        return view('admin.user.edit', compact('role', 'cv','task','info'));
+        return view('admin.user.edit', compact('role', 'cv', 'task', 'info'));
     }
 
     public function postEdit(EditUserRequest $request)

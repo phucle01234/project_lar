@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Login_adminController extends Controller
 {
@@ -22,16 +22,22 @@ class Login_adminController extends Controller
         if ($attempt == false) {
             return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng!');
         } else {
-            // return view('admin.home.home');
-            return redirect()->route('home');
+            $user_info = DB::table('user')
+                ->where('email', '=', $request->email)
+                ->join('roles', 'roles.id', '=', 'user.role_id')
+                ->first();
+                return view('admin.left', compact('user_info'));
+            // if ($user_info->status != 'active') {
+            //     // Bao loi
+            // } else {
+                return redirect()->route('home');
+            // }
         }
-
         return view('admin.logins.login');
     }
 
     public function logout(Request $request)
     {
-        // Auth::guard('admin')->logout;
         Auth::logout();
         return redirect()->route('login');
     }

@@ -25,12 +25,14 @@
                         <p>Tài khoản<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                        @if ($user_info->name != 'admin')
                         <li class="nav-item">
                             <a href="{{ route('user') }}" class="nav-link">
                                 <i class="fas fa-users-cog"></i>
                                 <p>Ban quản trị</p>
                             </a>
                         </li>
+                        @endif
                         <li class="nav-item has-treeview">
                             <a href="" class="nav-link">
                                 <i class="fas fa-user"></i>
@@ -57,7 +59,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('cong-viec') }}" class="nav-link">
-                        <i class="fas fa-bookmark"></i>
+                        <i class="fas fa-tasks"></i>
                         <p>Quản lý công việc</p>
                     </a>
                 </li>

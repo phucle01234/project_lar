@@ -111,8 +111,9 @@
                             <div class="form-group">
 								<label>Task</label>
 								<select class="form-control" name="task_id">
+                                    <option></option>
                                     @foreach ($task as $row )
-                                    <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                    <option value="{{ $row->id }}">{{ $row->name_da }}</option>
                                     @endforeach
 								</select>
 							</div>

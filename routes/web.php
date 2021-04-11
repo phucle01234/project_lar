@@ -47,7 +47,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
     //edit
     Route::get('chuc-vu/edit/{id}', [Regency_adminController::class, 'edit'])->name('editChucvu')->where('id', '[0-9]+');
     Route::post('chuc-vu/edit/{id}', [Regency_adminController::class, 'postEdit']);
-    // Route::post('chuc-vu/postEdit', [Regency_adminController::class, 'postEdit'])->name('postEditChucvu');
     //delete
     Route::get('chuc-vu/delete/{id}', [Regency_adminController::class, 'delete'])->name('deleteChucvu')->where('id', '[0-9]+');
 
@@ -67,7 +66,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
     //add
     Route::get('cong-viec/add', [Task_adminController::class, 'add'])->name('addTask');
     Route::post('cong-viec/postAdd', [Task_adminController::class, 'postAdd'])->name('postAddTask');
-    ///////////////////////////////////
+    //edit
+    Route::get('cong-viec/edit/{id}', [Task_adminController::class, 'edit'])->name('editTack')->where('id', '[0-9]+');
+    Route::post('cong-viec/edit/{id}', [Task_adminController::class, 'postEdit']);
+    //delete
+    Route::get('cong-viec/delete/{id}', [Task_adminController::class, 'delete'])->name('deleteTask')->where('id', '[0-9]+');
 });
-
-
