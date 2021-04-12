@@ -13,12 +13,19 @@ use App\Models\TaskUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Session;
 
 class User_adminController extends Controller
 {
 
     public function get_user(Request $request)
     {
+       
+if(Session::get('role')!=1){
+   echo "<script>
+window.location.href='http://localhost/project_lar/admin/login'       
+</script>";
+}
         $user = DB::table('user')
             ->join('roles', 'roles.id', '=', 'user.role_id')
             ->join('regency', 'regency.id', '=', 'user.regency_id')
@@ -32,6 +39,12 @@ class User_adminController extends Controller
 
     public function add(Request $request)
     {
+        
+if(Session::get('role')!=1){
+    echo "<script>
+ window.location.href='http://localhost/project_lar/admin/login'       
+ </script>";
+ }
         $role = Role::all()->where('status', 'active');
         $cv   = Regency::all()->where('status', 'active');
 
@@ -40,6 +53,12 @@ class User_adminController extends Controller
 
     public function postAdd(AddUserRequest $request)
     {
+        
+if(Session::get('role')!=1){
+    echo "<script>
+ window.location.href='http://localhost/project_lar/admin/login'       
+ </script>";
+ }
         $user = new User();
         $user->email       = $request->email;
         $user->fullname    = $request->fullname;
@@ -62,6 +81,12 @@ class User_adminController extends Controller
 
     public function edit(Request $request, $id)
     {
+        
+if(Session::get('role')!=1){
+    echo "<script>
+ window.location.href='http://localhost/project_lar/admin/login'       
+ </script>";
+ }
         $role = Role::all()->where('status', 'active');
         $cv   = Regency::all()->where('status', 'active');
         $task   = Task::all()->where('status', 'active');
@@ -73,6 +98,12 @@ class User_adminController extends Controller
 
     public function postEdit(EditUserRequest $request)
     {
+        
+if(Session::get('role')!=1){
+    echo "<script>
+ window.location.href='http://localhost/project_lar/admin/login'       
+ </script>";
+ }
         $user = User::find($request->id);
         $user->email       = $request->email;
         $user->fullname    = $request->fullname;
@@ -109,6 +140,11 @@ class User_adminController extends Controller
 
     public function delete($id)
     {
+        if(Session::get('role')!=1){
+            echo "<script> 
+                    window.location.href='http://localhost/project_lar/admin/login'       
+                </script>";
+        }
         // User::find($id)->delete();
         $data = User::find($id);
         $stt = 'delete';

@@ -25,7 +25,7 @@
                         <p>Tài khoản<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if ($user_info->name != 'admin')
+                        @if (Session::get('role') !=2)
                         <li class="nav-item">
                             <a href="{{ route('user') }}" class="nav-link">
                                 <i class="fas fa-users-cog"></i>
@@ -49,7 +49,6 @@
                     </a>
                 </li>
 
-                
                 <li class="nav-item">
                     <a href="{{ route('phong-ban') }}" class="nav-link">
                         <i class="fas fa-person-booth"></i>

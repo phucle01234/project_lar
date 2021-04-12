@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Session;
 
 class Login_adminController extends Controller
 {
@@ -20,14 +21,16 @@ class Login_adminController extends Controller
         $attempt = Auth::attempt($info);
 
         if ($attempt == false) {
-            return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng!');
+            return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng     !');
         } else {
             $user_info = DB::table('user')
                 ->where('email', '=', $request->email)
-                ->join('roles', 'roles.id', '=', 'user.role_id')
                 ->first();
-                return view('admin.left', compact('user_info'));
-            // if ($user_info->status != 'active') {
+
+                Session::put('role',$user_info->role_id);
+
+
+                // if ($user_info->status != 'active') {
             //     // Bao loi
             // } else {
                 return redirect()->route('home');
