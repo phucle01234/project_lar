@@ -21,20 +21,18 @@ class Login_adminController extends Controller
         $attempt = Auth::attempt($info);
 
         if ($attempt == false) {
-            return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng     !');
+            return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng!');
         } else {
             $user_info = DB::table('user')
                 ->where('email', '=', $request->email)
                 ->first();
+            Session::put('role', $user_info->role_id);
 
-                Session::put('role',$user_info->role_id);
-
-
-                // if ($user_info->status != 'active') {
-            //     // Bao loi
-            // } else {
+            if ($user_info->status != 'active') {
+                return redirect()->back()->with('errorMessage', 'Tài khoảng không được hỗ trợ hoặc đã bị xóa!');
+            } else {
                 return redirect()->route('home');
-            // }
+            }
         }
         return view('admin.logins.login');
     }

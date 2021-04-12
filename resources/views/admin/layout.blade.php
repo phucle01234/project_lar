@@ -1,10 +1,7 @@
-
-
 <!DOCTYPE html>
 <html>
     <head>
-        @include('admin.head')
-        
+        @include('admin.head')   
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
