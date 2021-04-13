@@ -25,7 +25,7 @@ Route::get('/trang-chu', [HomeController::class, 'index'])->name('trang-chu');
 // ************giao dien admin
 Route::get('admin/login', [Login_adminController::class, 'get_login']);
 Route::post('admin/login', [Login_adminController::class, 'login'])->name('login');
-Route::get('admin/home', [Home_adminController::class, 'index'])->name('home')->middleware("loginmidd");
+Route::get('admin/home', [Home_adminController::class, 'index'])->name('home')->middleware("loginmidd")->middleware("checkauth");
 Route::get('admin/logout', [Login_adminController::class, 'logout'])->name('logout');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
