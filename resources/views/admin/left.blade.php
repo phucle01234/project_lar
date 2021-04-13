@@ -25,7 +25,7 @@
                         <p>Tài khoản<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        @if (Session::get('role') !=2)
+                        @if (auth()->user()->role_id !=2)
                         <li class="nav-item">
                             <a href="{{ route('user') }}" class="nav-link">
                                 <i class="fas fa-users-cog"></i>

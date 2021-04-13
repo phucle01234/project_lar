@@ -13,14 +13,13 @@ use App\Models\TaskUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Session;
 
 class User_adminController extends Controller
 {
 
     public function get_user(Request $request)
     {
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script> 
                     window.location.href='http://localhost/project_lar/admin/login'
                 </script>";
@@ -38,8 +37,7 @@ class User_adminController extends Controller
 
     public function add(Request $request)
     {
-
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script> 
                     window.location.href='http://localhost/project_lar/admin/login' 
                 </script>";
@@ -52,8 +50,7 @@ class User_adminController extends Controller
 
     public function postAdd(AddUserRequest $request)
     {
-
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script>
                      window.location.href='http://localhost/project_lar/admin/login'
                 </script>";
@@ -80,7 +77,7 @@ class User_adminController extends Controller
 
     public function edit(Request $request, $id)
     {
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script> 
                     window.location.href='http://localhost/project_lar/admin/login'
                 </script>";
@@ -96,8 +93,7 @@ class User_adminController extends Controller
 
     public function postEdit(EditUserRequest $request)
     {
-
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script>
                     window.location.href='http://localhost/project_lar/admin/login'
                 </script>";
@@ -138,7 +134,7 @@ class User_adminController extends Controller
 
     public function delete($id)
     {
-        if (Session::get('role') != 1) {
+        if (auth()->user()->role_id != 1) {
             echo "<script> 
                     window.location.href='http://localhost/project_lar/admin/login'       
                 </script>";

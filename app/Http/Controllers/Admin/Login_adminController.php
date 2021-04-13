@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Session;
 
 class Login_adminController extends Controller
 {
@@ -23,13 +21,9 @@ class Login_adminController extends Controller
         if ($attempt == false) {
             return redirect()->back()->with('errorMessage', 'Email hoặc mật khẩu không đúng!');
         } else {
-            $user_info = DB::table('user')
-                ->where('email', '=', $request->email)
-                ->first();
-            Session::put('role', $user_info->role_id);
-
+            $user_info = Auth::user();           
             if ($user_info->status != 'active') {
-                return redirect()->back()->with('errorMessage', 'Tài khoảng không được hỗ trợ hoặc đã bị xóa!');
+                return redirect()->back()->with('errorMessage', 'Tài khoản không được hỗ trợ hoặc đã bị xóa!');
             } else {
                 return redirect()->route('home');
             }
