@@ -19,11 +19,6 @@ class User_adminController extends Controller
 
     public function get_user(Request $request)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script> 
-                    window.location.href='http://localhost/project_lar/admin/login'
-                </script>";
-        }
         $user = DB::table('user')
             ->join('roles', 'roles.id', '=', 'user.role_id')
             ->join('regency', 'regency.id', '=', 'user.regency_id')
@@ -37,11 +32,6 @@ class User_adminController extends Controller
 
     public function add(Request $request)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script> 
-                    window.location.href='http://localhost/project_lar/admin/login' 
-                </script>";
-        }
         $role = Role::all()->where('status', 'active');
         $cv   = Regency::all()->where('status', 'active');
 
@@ -50,11 +40,6 @@ class User_adminController extends Controller
 
     public function postAdd(AddUserRequest $request)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script>
-                     window.location.href='http://localhost/project_lar/admin/login'
-                </script>";
-        }
         $user = new User();
         $user->email       = $request->email;
         $user->fullname    = $request->fullname;
@@ -77,11 +62,6 @@ class User_adminController extends Controller
 
     public function edit(Request $request, $id)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script> 
-                    window.location.href='http://localhost/project_lar/admin/login'
-                </script>";
-        }
         $role = Role::all()->where('status', 'active');
         $cv   = Regency::all()->where('status', 'active');
         $task   = Task::all()->where('status', 'active');
@@ -93,11 +73,6 @@ class User_adminController extends Controller
 
     public function postEdit(EditUserRequest $request)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script>
-                    window.location.href='http://localhost/project_lar/admin/login'
-                </script>";
-        }
         $user = User::find($request->id);
         $user->email       = $request->email;
         $user->fullname    = $request->fullname;
@@ -134,12 +109,6 @@ class User_adminController extends Controller
 
     public function delete($id)
     {
-        if (auth()->user()->role_id != 1) {
-            echo "<script> 
-                    window.location.href='http://localhost/project_lar/admin/login'       
-                </script>";
-        }
-        // User::find($id)->delete();
         $data = User::find($id);
         $stt = 'delete';
         $data->status = $stt;

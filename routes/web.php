@@ -28,17 +28,18 @@ Route::post('admin/login', [Login_adminController::class, 'login'])->name('login
 Route::get('admin/home', [Home_adminController::class, 'index'])->name('home')->middleware("loginmidd")->middleware("checkauth");
 Route::get('admin/logout', [Login_adminController::class, 'logout'])->name('logout');
 
-Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd'], function () {
-    Route::get('user', [User_adminController::class, 'get_user'])->name('user');
-    //add
-    Route::get('user/add', [User_adminController::class, 'add'])->name('add');
-    Route::post('user/postAdd', [User_adminController::class, 'postAdd'])->name('postAdd');
-    //edit
-    Route::get('user/edit/{id}', [User_adminController::class, 'edit'])->name('edit')->where('id', '[0-9]+');
-    Route::post('user/postEdit', [User_adminController::class, 'postEdit'])->name('postEdit');
-    //delete
-    Route::get('user/delete/{id}', [User_adminController::class, 'delete'])->name('delete')->where('id', '[0-9]+');
-
+Route::group(['prefix' => 'admin', 'middleware' => 'loginmidd',], function () {
+    Route::group(['prefix' => 'user', 'middleware' => 'checkrole'], function () {
+        Route::get('/', [User_adminController::class, 'get_user'])->name('user');
+        //add
+        Route::get('add', [User_adminController::class, 'add'])->name('add');
+        Route::post('postAdd', [User_adminController::class, 'postAdd'])->name('postAdd');
+        //edit
+        Route::get('edit/{id}', [User_adminController::class, 'edit'])->name('edit')->where('id', '[0-9]+');
+        Route::post('postEdit', [User_adminController::class, 'postEdit'])->name('postEdit');
+        //delete
+        Route::get('delete/{id}', [User_adminController::class, 'delete'])->name('delete')->where('id', '[0-9]+');
+    });
     //***chuc_vu
     Route::get('chuc-vu', [Regency_adminController::class, 'get_regency'])->name('chuc-vu');
     //add

@@ -33,6 +33,6 @@ class Login_adminController extends Controller
     }
 }
 // User::create([
-    //     'email' => 'phucphipham1372000@gmail.com',
-    //     'password' => Hash::make('123456')
-    // ]);
+//         'email' => 'phucphipham1372000@gmail.com',
+//         'password' => Hash::make('123456')
+//     ]);

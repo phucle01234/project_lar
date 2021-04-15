@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Middleware;
-use Illuminate\Support\Facades\Auth;
 
 use Closure;
 use Illuminate\Http\Request;
-
-class CheckAuthMiddleware
+use Illuminate\Support\Facades\Auth;
+class CheckroleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,11 +16,11 @@ class CheckAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user_info = Auth::User();  
-        if (Auth::check() && $user_info->status != 'active') {
-            return redirect()->back()->with('errorMessage', 'Tài khoản không được hỗ trợ hoặc đã bị xóa!');
-        } else {
+        $user=Auth::user();
+        if ($user->role_id == 1) {
             return $next($request);
+        } else {
+            return redirect()->route('login');
         }
     }
 }

@@ -42,13 +42,11 @@
                                     <th>Tên chức vụ</th>
                                     <th>Phòng ban</th>
                                     <th>status</th>
-                                    {{--  <th>Full name</th>              --}}
                                     <th>Tạo lúc</th>
                                     <th>Ngày cập nhật</th>
                                     <th style="width: 120px;">Hành động </th>
                                 </tr>
                             </thead>
-                            {{--  {{ dd($regency) }}  --}}
                             <tbody>
                             @foreach ($regency as $row )
                                 <tr class="row_">
@@ -57,7 +55,6 @@
                                     <td>{{ $row->name_cv }}</td>                                  
                                     <td>{{ $row->name_pb }}</td>                  
                                     <td>{{ $row->status }}</td>
-                                    {{--  <td><samp style="color:red">{{ $row->fullname }}</samp></td>  --}}
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">
@@ -72,13 +69,7 @@
                     <div class="card-body table-responsive p-0">
                         <div class="card-header">
                             <button type="button" class="btn btn-sm btn-danger btn_del_all" url="">Xóa hết</button>
-                            <ul class="pagination pagination-sm m-0 float-right">
-                                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">»</a></li>
-                            </ul>
+                            {{ $regency->links('admin.paginate') }}
                         </div>
                     </div>
                 </div>

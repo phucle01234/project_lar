@@ -13,13 +13,12 @@ use App\Models\Department;
 class Regency_adminController extends Controller
 {
     public function get_regency(Request $request)
-    {
+    {   
         $regency = DB::table('regency')
-            ->join('department', 'department.id', '=', 'regency.department_id')
-            // ->join('user', 'user.regency_id', '=', 'regency.id')
-            ->select('regency.*', 'department.name_pb', )
-            ->get()->toArray();
-        return view('admin.regency.regency', ['regency' => $regency]);
+        ->join('department', 'department.id', '=', 'regency.department_id')
+        ->select('regency.*', 'department.name_pb',)   
+        ->paginate(1);
+        return view('admin.regency.regency',  compact('regency'));
     }
 
     public function add(Request $request)
