@@ -1,5 +1,5 @@
 <!-- jQuery -->
-<script src="{{asset('public/admin/plugins/jquery/jquery.min.js')}}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('public/admin/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -33,10 +33,3 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('public/admin/dist/js/demo.js')}}"></script>
 <!-- ckediter -->
-<script src="{{asset('public/admin/ckeditor/ckeditor.js')}}"></script>
-<script src="{{asset('public/admin/ckfinder/ckfinder.js')}}"></script>
-
-<script>
-    // replace textare to ckeditor
-    CKEDITOR.replaceAll('editor');
-</script>

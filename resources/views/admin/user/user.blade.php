@@ -66,8 +66,26 @@
                                             <div class="clear"></div>
                                         </div>
                                     </td>
+                                    {{--  ****upload list image  --}}
+                                    {{--  @php
+                                        $image = DB::table('list_avarta')->where('id_user',$row->id)->get();                   
+                                    @endphp   
+                                    <td>
+                                        @foreach ($image as $k)
+                                        <div class="image_thumb">
+                                            <img src="{{ url('/upload/'.$k->images) }}" height="50">
+                                            <div class="clear"></div>
+                                        </div>
+                                        @endforeach
+                                    </td>  --}}
                                     <td>{{ $row->name_cv }}</td>
-                                    <td>{{ $row->status }}</td>
+
+                                    @if ($row->status !='active')
+                                        <td><samp style="color:red">{{ $row->status }}</samp></td>
+                                    @else
+                                        <td>{{ $row->status }}</td>
+                                    @endif    
+                                       
                                     <td>{{ $row->created_at }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td class="option textC">

@@ -1,6 +1,7 @@
 @extends('admin.layout')
 @section('content')
-
+<script src="{{asset('public/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('public/ckfinder/ckfinder.js')}}"></script>
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -56,6 +57,7 @@
                                 <label for="upload" class="cus_tool">Avatar</label>
                                 <div class="">
                                     <input type="file" class="form-control" name="upload" id="upload" size="25">
+                                    {{--  <input type="file" class="form-control" name="upload[]" multiple  size="25">  --}}
                                     <div class="clear error" name="image_error"></div>
                                 </div>
                                 <span class="cus_help">Chọn ảnh kèm theo. Kích thước 600 x 400px</span>
@@ -115,6 +117,7 @@
                                     <option value="deleted" {{ old('status') == 'delete'?'selected':'' }}>delete</option>
 								</select>
 							</div>
+                            <textarea rows="10" name="description" placeholder='Description' id="description"class='form-control'> </textarea>
                             <div class="timeline-footer">
                                 <button type="submit" class="btn btn-danger">Thêm mới</button>
                             </div>
@@ -125,4 +128,10 @@
         </div>
     </form>
 </section>
+
+<script>
+    CKEDITOR.replace('description', {
+    filebrowserBrowseUrl: "{{asset('public/ckfinder/ckfinder.html')}}",
+    filebrowserUploadUrl: "{{asset('public/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Files')}}"});
+</script>
 @endsection

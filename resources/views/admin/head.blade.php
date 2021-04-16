@@ -36,4 +36,7 @@
 <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 <link rel="stylesheet" href="{{asset('public/admin/dist/css/custom.css')}}">
 
+<link rel="stylesheet" href="{{asset('public/ckeditor/ckeditor.js')}}">
+<link rel="stylesheet" href="{{asset('public/ckfinder/ckfinder.js')}}">
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

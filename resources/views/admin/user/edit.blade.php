@@ -57,6 +57,7 @@
                                 <label for="upload" class="cus_tool">Avatar</label>
                                 <div class="">
                                     <input type="file" class="form-control" name="upload" id="upload" size="25">
+                                    {{--  <input type="file" class="form-control" name="upload[]" multiple  size="25">  --}}
                                     <img src="{{ url('/upload/'.$info->avatar) }}" style="width:100px;height:70px">
                                 </div>
                                 <span class="cus_help">Chọn ảnh kèm theo. Kích thước 600 x 400px</span>

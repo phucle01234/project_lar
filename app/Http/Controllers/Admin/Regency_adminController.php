@@ -16,8 +16,8 @@ class Regency_adminController extends Controller
     {   
         $regency = DB::table('regency')
         ->join('department', 'department.id', '=', 'regency.department_id')
-        ->select('regency.*', 'department.name_pb',)   
-        ->paginate(1);
+        ->select('regency.*', 'department.name_pb')   
+        ->paginate(2);
         return view('admin.regency.regency',  compact('regency'));
     }
 
