@@ -23,31 +23,32 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class SubRequestHandler
 {
-    public static function handle(HttpKernelInterface $kernel, Request $request, int $type, bool $catch): Response
+    /**
+     * @return Response
+     */
+    public static function handle(HttpKernelInterface $kernel, Request $request, $type, $catch)
     {
         // save global state related to trusted headers and proxies
         $trustedProxies = Request::getTrustedProxies();
-        $trustedHeaderSet = Request::getTrustedHeaderSet();
+        $trustedHeaders = array(
+            Request::HEADER_FORWARDED => Request::getTrustedHeaderName(Request::HEADER_FORWARDED),
+            Request::HEADER_CLIENT_IP => Request::getTrustedHeaderName(Request::HEADER_CLIENT_IP),
+            Request::HEADER_CLIENT_HOST => Request::getTrustedHeaderName(Request::HEADER_CLIENT_HOST),
+            Request::HEADER_CLIENT_PROTO => Request::getTrustedHeaderName(Request::HEADER_CLIENT_PROTO),
+            Request::HEADER_CLIENT_PORT => Request::getTrustedHeaderName(Request::HEADER_CLIENT_PORT),
+        );
 
         // remove untrusted values
         $remoteAddr = $request->server->get('REMOTE_ADDR');
         if (!IpUtils::checkIp($remoteAddr, $trustedProxies)) {
-            $trustedHeaders = [
-                'FORWARDED' => $trustedHeaderSet & Request::HEADER_FORWARDED,
-                'X_FORWARDED_FOR' => $trustedHeaderSet & Request::HEADER_X_FORWARDED_FOR,
-                'X_FORWARDED_HOST' => $trustedHeaderSet & Request::HEADER_X_FORWARDED_HOST,
-                'X_FORWARDED_PROTO' => $trustedHeaderSet & Request::HEADER_X_FORWARDED_PROTO,
-                'X_FORWARDED_PORT' => $trustedHeaderSet & Request::HEADER_X_FORWARDED_PORT,
-            ];
-            foreach (array_filter($trustedHeaders) as $name => $key) {
+            foreach (array_filter($trustedHeaders) as $name) {
                 $request->headers->remove($name);
-                $request->server->remove('HTTP_'.$name);
             }
         }
 
         // compute trusted values, taking any trusted proxies into account
-        $trustedIps = [];
-        $trustedValues = [];
+        $trustedIps = array();
+        $trustedValues = array();
         foreach (array_reverse($request->getClientIps()) as $ip) {
             $trustedIps[] = $ip;
             $trustedValues[] = sprintf('for="%s"', $ip);
@@ -58,18 +59,16 @@ class SubRequestHandler
         }
 
         // set trusted values, reusing as much as possible the global trusted settings
-        if (Request::HEADER_FORWARDED & $trustedHeaderSet) {
+        if ($name = $trustedHeaders[Request::HEADER_FORWARDED]) {
             $trustedValues[0] .= sprintf(';host="%s";proto=%s', $request->getHttpHost(), $request->getScheme());
-            $request->headers->set('Forwarded', $v = implode(', ', $trustedValues));
-            $request->server->set('HTTP_FORWARDED', $v);
+            $request->headers->set($name, implode(', ', $trustedValues));
         }
-        if (Request::HEADER_X_FORWARDED_FOR & $trustedHeaderSet) {
-            $request->headers->set('X-Forwarded-For', $v = implode(', ', $trustedIps));
-            $request->server->set('HTTP_X_FORWARDED_FOR', $v);
-        } elseif (!(Request::HEADER_FORWARDED & $trustedHeaderSet)) {
-            Request::setTrustedProxies($trustedProxies, $trustedHeaderSet | Request::HEADER_X_FORWARDED_FOR);
-            $request->headers->set('X-Forwarded-For', $v = implode(', ', $trustedIps));
-            $request->server->set('HTTP_X_FORWARDED_FOR', $v);
+        if ($name = $trustedHeaders[Request::HEADER_CLIENT_IP]) {
+            $request->headers->set($name, implode(', ', $trustedIps));
+        }
+        if (!$name && !$trustedHeaders[Request::HEADER_FORWARDED]) {
+            $request->headers->set('X-Forwarded-For', implode(', ', $trustedIps));
+            Request::setTrustedHeaderName(Request::HEADER_CLIENT_IP, 'X_FORWARDED_FOR');
         }
 
         // fix the client IP address by setting it to 127.0.0.1,
@@ -78,14 +77,24 @@ class SubRequestHandler
 
         // ensure 127.0.0.1 is set as trusted proxy
         if (!IpUtils::checkIp('127.0.0.1', $trustedProxies)) {
-            Request::setTrustedProxies(array_merge($trustedProxies, ['127.0.0.1']), Request::getTrustedHeaderSet());
+            Request::setTrustedProxies(array_merge($trustedProxies, array('127.0.0.1')));
         }
 
         try {
-            return $kernel->handle($request, $type, $catch);
-        } finally {
-            // restore global state
-            Request::setTrustedProxies($trustedProxies, $trustedHeaderSet);
+            $e = null;
+            $response = $kernel->handle($request, $type, $catch);
+        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
         }
+
+        // restore global state
+        Request::setTrustedHeaderName(Request::HEADER_CLIENT_IP, $trustedHeaders[Request::HEADER_CLIENT_IP]);
+        Request::setTrustedProxies($trustedProxies);
+
+        if (null !== $e) {
+            throw $e;
+        }
+
+        return $response;
     }
 }

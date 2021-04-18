@@ -28,12 +28,12 @@ $config = array();
 $config['authentication'] = function () {
     return true;
 };
-$baseUrl = 'http://localhost/project_lar/';
+
 /*============================ License Key ============================================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_licenseKey
 
-$config['licenseName'] = '';
-$config['licenseKey']  = '';
+$config['licenseName'] = 'localhost';
+$config['licenseKey']  = '*8?A-*1**-6**E-*7**-*7**-4*5*-2**K';
 
 /*============================ CKFinder Internal Directory ============================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_privateDir

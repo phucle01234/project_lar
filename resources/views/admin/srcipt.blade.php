@@ -34,6 +34,7 @@
 <script src="{{asset('public/admin/dist/js/demo.js')}}"></script>
 <!-- ckediter -->
 <script src="{{asset('public/ckeditor/ckeditor.js')}}"></script>
+<script src="{{asset('public/ckfinder/ckfinder.js')}}"></script>
 <script>
 // replace textare to ckeditor
   CKEDITOR.replaceAll('editor');

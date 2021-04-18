@@ -11,37 +11,38 @@
 
 namespace Symfony\Component\HttpKernel\Profiler;
 
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Exception\ConflictingHeadersException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 use Symfony\Component\HttpKernel\DataCollector\LateDataCollectorInterface;
-use Symfony\Contracts\Service\ResetInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Profiler.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Profiler implements ResetInterface
+class Profiler
 {
     private $storage;
 
     /**
      * @var DataCollectorInterface[]
      */
-    private $collectors = [];
+    private $collectors = array();
 
     private $logger;
-    private $initiallyEnabled = true;
+
+    /**
+     * @var bool
+     */
     private $enabled = true;
 
-    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, bool $enable = true)
+    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null)
     {
         $this->storage = $storage;
         $this->logger = $logger;
-        $this->initiallyEnabled = $this->enabled = $enable;
     }
 
     /**
@@ -63,12 +64,12 @@ class Profiler implements ResetInterface
     /**
      * Loads the Profile for the given Response.
      *
-     * @return Profile|null A Profile instance
+     * @return Profile|false A Profile instance
      */
     public function loadProfileFromResponse(Response $response)
     {
         if (!$token = $response->headers->get('X-Debug-Token')) {
-            return null;
+            return false;
         }
 
         return $this->loadProfile($token);
@@ -77,9 +78,11 @@ class Profiler implements ResetInterface
     /**
      * Loads the Profile for the given token.
      *
-     * @return Profile|null A Profile instance
+     * @param string $token A token
+     *
+     * @return Profile A Profile instance
      */
-    public function loadProfile(string $token)
+    public function loadProfile($token)
     {
         return $this->storage->read($token);
     }
@@ -99,7 +102,7 @@ class Profiler implements ResetInterface
         }
 
         if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', ['configured_storage' => \get_class($this->storage)]);
+            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => get_class($this->storage)));
         }
 
         return $ret;
@@ -114,19 +117,52 @@ class Profiler implements ResetInterface
     }
 
     /**
+     * Exports the current profiler data.
+     *
+     * @return string The exported data
+     */
+    public function export(Profile $profile)
+    {
+        return base64_encode(serialize($profile));
+    }
+
+    /**
+     * Imports data into the profiler storage.
+     *
+     * @param string $data A data string as exported by the export() method
+     *
+     * @return Profile|false A Profile instance
+     */
+    public function import($data)
+    {
+        $profile = unserialize(base64_decode($data));
+
+        if ($this->storage->read($profile->getToken())) {
+            return false;
+        }
+
+        $this->saveProfile($profile);
+
+        return $profile;
+    }
+
+    /**
      * Finds profiler tokens for the given criteria.
      *
-     * @param string|null $limit The maximum number of tokens to return
-     * @param string|null $start The start date to search from
-     * @param string|null $end   The end date to search to
+     * @param string $ip     The IP
+     * @param string $url    The URL
+     * @param string $limit  The maximum number of tokens to return
+     * @param string $method The request method
+     * @param string $start  The start date to search from
+     * @param string $end    The end date to search to
      *
      * @return array An array of tokens
      *
-     * @see https://php.net/datetime.formats for the supported date/time formats
+     * @see http://php.net/manual/en/datetime.formats.php for the supported date/time formats
      */
-    public function find(?string $ip, ?string $url, ?string $limit, ?string $method, ?string $start, ?string $end, string $statusCode = null)
+    public function find($ip, $url, $limit, $method, $start, $end)
     {
-        return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end), $statusCode);
+        return $this->storage->find($ip, $url, $limit, $method, $this->getTimestamp($start), $this->getTimestamp($end));
     }
 
     /**
@@ -134,10 +170,10 @@ class Profiler implements ResetInterface
      *
      * @return Profile|null A Profile instance or null if the profiler is disabled
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Exception $exception = null)
     {
         if (false === $this->enabled) {
-            return null;
+            return;
         }
 
         $profile = new Profile(substr(hash('sha256', uniqid(mt_rand(), true)), 0, 6));
@@ -151,10 +187,6 @@ class Profiler implements ResetInterface
             $profile->setIp('Unknown');
         }
 
-        if ($prevToken = $response->headers->get('X-Debug-Token')) {
-            $response->headers->set('X-Previous-Debug-Token', $prevToken);
-        }
-
         $response->headers->set('X-Debug-Token', $profile->getToken());
 
         foreach ($this->collectors as $collector) {
@@ -165,14 +197,6 @@ class Profiler implements ResetInterface
         }
 
         return $profile;
-    }
-
-    public function reset()
-    {
-        foreach ($this->collectors as $collector) {
-            $collector->reset();
-        }
-        $this->enabled = $this->initiallyEnabled;
     }
 
     /**
@@ -190,9 +214,9 @@ class Profiler implements ResetInterface
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
      */
-    public function set(array $collectors = [])
+    public function set(array $collectors = array())
     {
-        $this->collectors = [];
+        $this->collectors = array();
         foreach ($collectors as $collector) {
             $this->add($collector);
         }
@@ -213,7 +237,7 @@ class Profiler implements ResetInterface
      *
      * @return bool
      */
-    public function has(string $name)
+    public function has($name)
     {
         return isset($this->collectors[$name]);
     }
@@ -227,7 +251,7 @@ class Profiler implements ResetInterface
      *
      * @throws \InvalidArgumentException if the collector does not exist
      */
-    public function get(string $name)
+    public function get($name)
     {
         if (!isset($this->collectors[$name])) {
             throw new \InvalidArgumentException(sprintf('Collector "%s" does not exist.', $name));
@@ -236,16 +260,16 @@ class Profiler implements ResetInterface
         return $this->collectors[$name];
     }
 
-    private function getTimestamp(?string $value): ?int
+    private function getTimestamp($value)
     {
-        if (null === $value || '' === $value) {
-            return null;
+        if (null === $value || '' == $value) {
+            return;
         }
 
         try {
             $value = new \DateTime(is_numeric($value) ? '@'.$value : $value);
         } catch (\Exception $e) {
-            return null;
+            return;
         }
 
         return $value->getTimestamp();

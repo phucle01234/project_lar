@@ -14,10 +14,13 @@ namespace Symfony\Component\HttpFoundation\Session\Storage\Proxy;
 /**
  * @author Drak <drak@zikula.org>
  */
-class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterface, \SessionUpdateTimestampHandlerInterface
+class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterface
 {
     protected $handler;
 
+    /**
+     * @param \SessionHandlerInterface $handler
+     */
     public function __construct(\SessionHandlerInterface $handler)
     {
         $this->handler = $handler;
@@ -25,34 +28,34 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
         $this->saveHandlerName = $this->wrapper ? ini_get('session.save_handler') : 'user';
     }
 
-    /**
-     * @return \SessionHandlerInterface
-     */
-    public function getHandler()
-    {
-        return $this->handler;
-    }
-
     // \SessionHandlerInterface
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function open($savePath, $sessionName)
     {
-        return (bool) $this->handler->open($savePath, $sessionName);
+        $return = (bool) $this->handler->open($savePath, $sessionName);
+
+        if (true === $return) {
+            $this->active = true;
+        }
+
+        return $return;
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function close()
     {
+        $this->active = false;
+
         return (bool) $this->handler->close();
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function read($sessionId)
     {
@@ -60,7 +63,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function write($sessionId, $data)
     {
@@ -68,7 +71,7 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function destroy($sessionId)
     {
@@ -76,26 +79,10 @@ class SessionHandlerProxy extends AbstractProxy implements \SessionHandlerInterf
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function gc($maxlifetime)
     {
         return (bool) $this->handler->gc($maxlifetime);
-    }
-
-    /**
-     * @return bool
-     */
-    public function validateId($sessionId)
-    {
-        return !$this->handler instanceof \SessionUpdateTimestampHandlerInterface || $this->handler->validateId($sessionId);
-    }
-
-    /**
-     * @return bool
-     */
-    public function updateTimestamp($sessionId, $data)
-    {
-        return $this->handler instanceof \SessionUpdateTimestampHandlerInterface ? $this->handler->updateTimestamp($sessionId, $data) : $this->write($sessionId, $data);
     }
 }
