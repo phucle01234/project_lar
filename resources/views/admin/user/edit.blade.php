@@ -118,10 +118,10 @@
                                     @endforeach
 								</select>
 							</div>
-
                             <div class="form-group">
 								<label>Status</label>
 								<select class="form-control" name="status">
+                                    <option value="">{{ $info->status }}</option>
 									<option value="active" {{ $info->status == 'active'?'selected':'' }}>active</option>
 									<option value="unactive" {{ $info->status == 'unactive'?'selected':'' }}>unactive</option>
                                     <option value="delete" {{ $info->status == 'delete'?'selecte':'' }}>deleted</option>

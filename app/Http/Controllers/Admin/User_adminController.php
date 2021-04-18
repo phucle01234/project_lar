@@ -80,8 +80,7 @@ class User_adminController extends Controller
         $data_info_mail = $request->email;
         Mail::to($data_info_mail)->send(new EmailSenduser());
         Mail::to($emailAmin)->send(new EmailSenduser());
-
-
+        
         return redirect()->route('user');
     }
 

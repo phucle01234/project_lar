@@ -18,6 +18,6 @@ class EmailSenduser extends Mailable
     public function build()
     {
         return $this->markdown('admin.mailfb')
-        ->subject('Test');
+        ->subject('Thư thông báo');
     }
 }

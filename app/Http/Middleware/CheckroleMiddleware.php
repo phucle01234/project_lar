@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class CheckroleMiddleware
 {
     /**
@@ -16,7 +17,7 @@ class CheckroleMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user=Auth::user();
+        $user = Auth::user();
         if ($user->role_id == 1) {
             return $next($request);
         } else {
@@ -24,4 +25,3 @@ class CheckroleMiddleware
         }
     }
 }
-                

@@ -71,10 +71,10 @@
                                 <label>Nhập lại password <span class="text-red">(* Bắt buộc) </span></label>
                                 <input type="password" name="password_confirmation" value="" class="form-control" placeholder="Nhập lại password">
                             </div>
+                            <textarea rows="10" name="description" placeholder='Description' class='form-control editor'> </textarea>
                         </div>
                     </div>
                 </div>
-                {{-- {{ dd($data) }} --}}
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
@@ -117,7 +117,6 @@
                                     <option value="deleted" {{ old('status') == 'delete'?'selected':'' }}>delete</option>
 								</select>
 							</div>
-                            <textarea rows="10" name="description" placeholder='Description' id="description"class='form-control'> </textarea>
                             <div class="timeline-footer">
                                 <button type="submit" class="btn btn-danger">Thêm mới</button>
                             </div>
@@ -129,9 +128,9 @@
     </form>
 </section>
 
-<script>
+{{-- <script>
     CKEDITOR.replace('description', {
     filebrowserBrowseUrl: "{{asset('public/ckfinder/ckfinder.html')}}",
     filebrowserUploadUrl: "{{asset('public/ckfinder/core/connector/php/connector.php?command=QuickUpload&amp;type=Files')}}"});
-</script>
+</script> --}}
 @endsection

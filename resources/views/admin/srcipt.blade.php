@@ -33,3 +33,8 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{asset('public/admin/dist/js/demo.js')}}"></script>
 <!-- ckediter -->
+<script src="{{asset('public/ckeditor/ckeditor.js')}}"></script>
+<script>
+// replace textare to ckeditor
+  CKEDITOR.replaceAll('editor');
+</script>
